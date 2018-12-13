@@ -11,6 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
+    // proxyTable: {},    //default
     proxyTable: {
       '/users': {
         target: 'http://localhost:3000/users',
@@ -19,8 +20,9 @@ module.exports = {
           '^/users': ''
         }
       }
+  },
 
-    },
+
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
