@@ -8,6 +8,7 @@ import ReadById from '../components/ReadById'
 import SignUp from '../components/SignUp'
 import home from "../components/home";
 import Root from "../components/Root";
+import LoginPage from "../components/commons/LoginPage"
 
 export default new Router({
   mode: 'history',
@@ -16,6 +17,11 @@ export default new Router({
       path: '/',
       name: 'root',
       component: Root
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     },
     {
       path: '/home',

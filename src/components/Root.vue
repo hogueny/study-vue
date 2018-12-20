@@ -1,13 +1,10 @@
 <template>
   <div id="custom-root">
-
-    루트야!
-
+    루트야
   </div>
 </template>
 
 <script>
-
 export default {
   name: "root"
 };
