@@ -57,6 +57,9 @@ const actions = {
             console.error("actions > getuser > error : ", e);
             return false;
         }
+    },
+    [TYPE.SET_TOKEN](context, payload) {
+        context.commit(TYPE.SET_TOKEN, payload);
     }
 }
 
@@ -70,6 +73,11 @@ const mutations = {
     [TYPE.GET_USER](state, payload) {
         console.log("mutation called")
         state.user = payload;
+    },
+    [TYPE.SET_TOKEN](state, payload) {
+        console.log("mutation called")
+        state.token.accessToken = payload.accessToken
+        state.token.refresshToken = payload.refresshToken
     }
 }
 

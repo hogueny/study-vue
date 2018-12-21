@@ -45,6 +45,8 @@ export default {
         console.error("유저를 가져오다 에러남!!");
         return false;
       }
+      localStorage.setItem('token', this.token.accessToken);
+      localStorage.setItem('refreshToken', this.token.refresshToken);
       this.$router.push({ path: "/" }); // home화면으로 이동
     }
   }
