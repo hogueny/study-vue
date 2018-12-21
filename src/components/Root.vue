@@ -1,12 +1,20 @@
 <template>
   <div id="custom-root">
+    <p v-show="user.idx !== -1">안녕? {{user.name}}야, 난, </p>
     루트야
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "root"
+  name: "root",
+  computed: {
+    ...mapGetters(["user"])
+  },
+  created: function() {
+    console.log("root user : ", this.user)
+  }
 };
 </script>
 

@@ -5,10 +5,13 @@
     <label>비밀번호</label>
     <input type="password" v-model="user.password">
     <button @click="login">로그인</button>
+    {{token}}
   </div>
 </template>
 
 <script>
+import * as TYPE from "../../config/mutation-types";
+import { mapGetters } from "vuex";
 export default {
   name: "login-page",
   data: function() {
@@ -24,18 +27,25 @@ export default {
   created: function() {
     console.log("야호 login-page");
   },
+  computed: {
+    ...mapGetters(["token"])
+  },
   methods: {
-    login: function() {
+    login: async function() {
       console.log("user : ", this.user);
-      this.$http
-        .post("http://localhost:3000/users/login", {
-          email: this.user.email,
-          password: this.user.password
-        })
-        .then(response => {
-          console.log("로그인 했어", response.data);
-          this.$router.push({ path: "/" }); // home화면으로 이동
-        });
+      const result = await this.$store.dispatch(`${TYPE.LOGIN}`, this.user);
+      if (!result) {
+        console.error("에러가 발생했습니다!!");
+        return false;
+      }
+      console.log("access token : ", this.token.accessToken);
+      console.log("refresh token : ", this.token.refresshToken);
+      const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`) // token 으로 가져오기 때문에 넘길 필요가 없음 
+      if (!getUser) {
+        console.error("유저를 가져오다 에러남!!");
+        return false;
+      }
+      this.$router.push({ path: "/" }); // home화면으로 이동
     }
   }
 };
