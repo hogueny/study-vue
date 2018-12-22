@@ -1,6 +1,6 @@
 <template>
   <div id="custom-root">
-    <p v-show="user.idx !== -1">안녕? {{user.name}}야, 난, </p>
+    <p v-show="user.id !== -1">안녕? {{user.name}}야, 난, </p>
     루트야
   </div>
 </template>

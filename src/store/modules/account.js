@@ -106,6 +106,22 @@ const mutations = {
         state.token.refreshToken = payload.refreshToken
         localStorage.setItem("token", payload.accessToken)
         localStorage.setItem("refreshToken", payload.refreshToken)
+    },
+    [TYPE.LOGOUT](state) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        state.token.accessToken = "";
+        state.token.refreshToken = "";
+        state.user = {
+            id: -1,
+            name: "",
+            email: "",
+            regDate: "",
+            modDate: "",
+            age: "",
+            role: "",
+            uuid: ""
+        }
     }
 }
 
