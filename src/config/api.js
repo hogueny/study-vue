@@ -40,3 +40,11 @@ export function removeUser(token) {
     });
 }
 
+export function getAccessTokenByRefresh(refreshToken) {
+    return axios.get(`${baseURL}/users/refresh`, {
+        headers: {
+            "Authorization": refreshToken,
+            "Content-Type": "application/json"
+        }
+    });
+}

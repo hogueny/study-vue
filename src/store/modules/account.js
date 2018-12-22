@@ -46,20 +46,37 @@ const actions = {
         try {
             console.log("access token is ", state.token.accessToken)
             const result = await api.getUser(state.token.accessToken);
-            if (result.status !== 200) {
-                console.error("get user error : ", result);
-                return false;
-            }
             console.log("get user success and data : ", result.data);
             context.commit(TYPE.GET_USER, result.data);
-            return true;
+            return 200;
         } catch (e) {
             console.error("actions > getuser > error : ", e);
-            return false;
+            if (e.response.data.code === "4012") {
+                return 401;
+            }
+            return 500;
         }
     },
     [TYPE.SET_TOKEN](context, payload) {
         context.commit(TYPE.SET_TOKEN, payload);
+    },
+    async [TYPE.REFRESH_TOKEN](context) {
+        try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            if (!refreshToken) {
+                return 404;
+            }
+            const result = await api.getAccessTokenByRefresh(refreshToken);
+            if (result.status !== 200) {
+                console.error("get REFRESH_TOKEN error : ", result);
+                return 500;
+            }
+            context.commit(TYPE.SET_TOKEN, result.data);
+            return 200;
+        } catch(e) {
+            console.error("actions > REFRESH_TOKEN > error : ", e);
+            return 500;
+        }
     }
 }
 
@@ -78,6 +95,8 @@ const mutations = {
         console.log("mutation called")
         state.token.accessToken = payload.accessToken
         state.token.refreshToken = payload.refreshToken
+        localStorage.setItem("token", payload.accessToken)
+        localStorage.setItem("refreshToken", payload.refreshToken)
     }
 }
 

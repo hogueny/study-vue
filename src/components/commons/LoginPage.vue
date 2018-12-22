@@ -40,13 +40,19 @@ export default {
       }
       console.log("access token : ", this.token.accessToken);
       console.log("refresh token : ", this.token.refreshToken);
-      const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`) // token 으로 가져오기 때문에 넘길 필요가 없음 
-      if (!getUser) {
+      const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`); // token 으로 가져오기 때문에 넘길 필요가 없음
+      if (getUser !== 200) {
         console.error("유저를 가져오다 에러남!!");
+        if (getUser === 401) {
+          console.error("토큰 이상");
+        }
+        if (getUser === 500) {
+          console.error("유저를 가져오다 다른 오류!!");
+        }
         return false;
       }
-      localStorage.setItem('token', this.token.accessToken);
-      localStorage.setItem('refreshToken', this.token.refreshToken);
+      localStorage.setItem("token", this.token.accessToken);
+      localStorage.setItem("refreshToken", this.token.refreshToken);
       this.$router.push({ path: "/" }); // home화면으로 이동
     }
   }
