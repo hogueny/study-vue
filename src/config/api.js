@@ -48,3 +48,13 @@ export function getAccessTokenByRefresh(refreshToken) {
         }
     });
 }
+
+
+export function changeMyInfo(params) {
+    return axios.patch(`${baseURL}/users/me`, params.user, {
+        headers: {
+            "Authorization": params.token,
+            "Content-Type": "application/json"
+        }
+    });
+}

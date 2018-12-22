@@ -1,18 +1,25 @@
 <template>
   <div id="custom-header">
-    <login-button v-if="user.id === -1"></login-button>
-    <logout-button v-else></logout-button>
+    <div v-if="user.id === -1">
+      <login-button></login-button>
+    </div>
+    <div v-else>
+      <logout-button></logout-button>
+      <change-my-info-button></change-my-info-button>
+    </div>
   </div>
 </template>
 
 <script>
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import ChangeMyInfoButton from "./ChangeMyInfoButton";
 import { mapGetters } from "vuex";
 export default {
   components: {
     LoginButton,
-    LogoutButton
+    LogoutButton,
+    ChangeMyInfoButton
   },
   computed: {
     ...mapGetters(["user"])

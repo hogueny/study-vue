@@ -86,6 +86,26 @@ const actions = {
             }
             return 500;
         }
+    },
+    async [TYPE.CHANGE_MY_INFO](context, payload) {
+        try {
+            const result = await api.changeMyInfo({
+                token: state.token.accessToken,
+                user: payload
+            });
+            context.commit(TYPE.CHANGE_MY_INFO, result.data);
+            return 200;
+        } catch (e) {
+            if (e.response.data.code === "4012") {
+                console.error("actions > REFRESH_TOKEN > token expired");
+                return 401;
+            }
+            if (e.response.data.code === "3000") {
+                console.error("actions > REFRESH_TOKEN > user not found");
+                return 404;
+            }
+            return 500;
+        }
     }
 }
 
@@ -122,6 +142,9 @@ const mutations = {
             role: "",
             uuid: ""
         }
+    },
+    [TYPE.CHANGE_MY_INFO](state, payload) {
+        state.user = payload;
     }
 }
 

@@ -9,6 +9,7 @@ import SignUp from '../components/SignUp'
 import home from "../components/home";
 import Root from "../components/Root";
 import LoginPage from "../components/commons/LoginPage"
+import ChangeMyInfoPage from "../components/commons/ChangeMyInfoPage"
 
 export default new Router({
   mode: 'history',
@@ -42,6 +43,11 @@ export default new Router({
       path: '/SignUp',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: "/myinfo",
+      name: "myinfo",
+      component: ChangeMyInfoPage
     }
   ]
 })
