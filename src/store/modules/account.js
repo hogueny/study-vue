@@ -7,7 +7,7 @@ const state = {
         refreshToken: ""
     },
     user: {
-        idx: -1,
+        id: -1,
         name: "",
         email: "",
         regDate: "",
@@ -27,39 +27,65 @@ const getters = {
 
 // actions
 const actions = {
-    async [TYPE.LOGIN] (context, user) {
+    async [TYPE.LOGIN](context, user) {
         try {
             const result = await api.login(user);
-            if (result.status !== 200) {
-                console.error("login error : ", result);
-                return false;
-            }
             console.log("login success and data : ", result.data);
             context.commit(TYPE.LOGIN, result.data);
-            return true;
+            return 200;
         } catch (e) {
-            console.error("actions > login >login error : ", e);
-            return false;
+            console.error("actions > login >login error : ", e.response.data);
+            if (e.response.data.code === "4012") {
+                console.error("actions > LOGIN > user not found");
+                return 404;
+            }
+            if (e.response.data.code === "3001") {
+                console.error("actions > LOGIN > password not valid");
+                return 400;
+            }
+            return 500;
         }
     },
     async [TYPE.GET_USER](context) {
         try {
             console.log("access token is ", state.token.accessToken)
             const result = await api.getUser(state.token.accessToken);
-            if (result.status !== 200) {
-                console.error("get user error : ", result);
-                return false;
-            }
             console.log("get user success and data : ", result.data);
             context.commit(TYPE.GET_USER, result.data);
-            return true;
+            return 200;
         } catch (e) {
-            console.error("actions > getuser > error : ", e);
-            return false;
+            console.error("actions > getuser > error : ", e.response.data);
+            if (e.response.data.code === "4012") {
+                console.error("actions > getuser > token expired");
+                return 401;
+            }
+            return 500;
         }
     },
     [TYPE.SET_TOKEN](context, payload) {
         context.commit(TYPE.SET_TOKEN, payload);
+    },
+    async [TYPE.REFRESH_TOKEN](context) {
+        try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            if (!refreshToken) {
+                return 4404;
+            }
+            const result = await api.getAccessTokenByRefresh(refreshToken);
+            context.commit(TYPE.SET_TOKEN, result.data);
+            return 200;
+        } catch (e) {
+            console.error("actions > REFRESH_TOKEN > error : ", e.response.data);
+            if (e.response.data.code === "4012") {
+                console.error("actions > REFRESH_TOKEN > token expired");
+                return 401;
+            }
+            if (e.response.data.code === "3000") {
+                console.error("actions > REFRESH_TOKEN > user not found");
+                return 404;
+            }
+            return 500;
+        }
     }
 }
 
@@ -78,6 +104,8 @@ const mutations = {
         console.log("mutation called")
         state.token.accessToken = payload.accessToken
         state.token.refreshToken = payload.refreshToken
+        localStorage.setItem("token", payload.accessToken)
+        localStorage.setItem("refreshToken", payload.refreshToken)
     }
 }
 

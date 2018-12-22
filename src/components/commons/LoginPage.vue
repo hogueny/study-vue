@@ -34,19 +34,33 @@ export default {
     login: async function() {
       console.log("user : ", this.user);
       const result = await this.$store.dispatch(`${TYPE.LOGIN}`, this.user);
-      if (!result) {
-        console.error("에러가 발생했습니다!!");
+      if (result !== 200) {
+        if (result === 404) {
+          console.error("유저가 없습니다.");
+        }
+        if (result === 400) {
+          console.error("패스워드가 잘못되었습니다.");
+        }
+        if (result === 500) {
+          console.error("서버에 문제가 있습니다.");
+        }
         return false;
       }
       console.log("access token : ", this.token.accessToken);
       console.log("refresh token : ", this.token.refreshToken);
-      const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`) // token 으로 가져오기 때문에 넘길 필요가 없음 
-      if (!getUser) {
+      const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`); // token 으로 가져오기 때문에 넘길 필요가 없음
+      if (getUser !== 200) {
         console.error("유저를 가져오다 에러남!!");
+        if (getUser === 401) {
+          console.error("토큰 이상");
+        }
+        if (getUser === 500) {
+          console.error("유저를 가져오다 다른 오류!!");
+        }
         return false;
       }
-      localStorage.setItem('token', this.token.accessToken);
-      localStorage.setItem('refreshToken', this.token.refreshToken);
+      localStorage.setItem("token", this.token.accessToken);
+      localStorage.setItem("refreshToken", this.token.refreshToken);
       this.$router.push({ path: "/" }); // home화면으로 이동
     }
   }
