@@ -7,7 +7,7 @@ const state = {
         refreshToken: ""
     },
     user: {
-        idx: -1,
+        id: -1,
         name: "",
         email: "",
         regDate: "",
@@ -27,19 +27,23 @@ const getters = {
 
 // actions
 const actions = {
-    async [TYPE.LOGIN] (context, user) {
+    async [TYPE.LOGIN](context, user) {
         try {
             const result = await api.login(user);
-            if (result.status !== 200) {
-                console.error("login error : ", result);
-                return false;
-            }
             console.log("login success and data : ", result.data);
             context.commit(TYPE.LOGIN, result.data);
-            return true;
+            return 200;
         } catch (e) {
-            console.error("actions > login >login error : ", e);
-            return false;
+            console.error("actions > login >login error : ", e.response.data);
+            if (e.response.data.code === "4012") {
+                console.error("actions > LOGIN > user not found");
+                return 404;
+            }
+            if (e.response.data.code === "3001") {
+                console.error("actions > LOGIN > password not valid");
+                return 400;
+            }
+            return 500;
         }
     },
     async [TYPE.GET_USER](context) {
@@ -50,8 +54,9 @@ const actions = {
             context.commit(TYPE.GET_USER, result.data);
             return 200;
         } catch (e) {
-            console.error("actions > getuser > error : ", e);
+            console.error("actions > getuser > error : ", e.response.data);
             if (e.response.data.code === "4012") {
+                console.error("actions > getuser > token expired");
                 return 401;
             }
             return 500;
@@ -64,17 +69,21 @@ const actions = {
         try {
             const refreshToken = localStorage.getItem("refreshToken");
             if (!refreshToken) {
-                return 404;
+                return 4404;
             }
             const result = await api.getAccessTokenByRefresh(refreshToken);
-            if (result.status !== 200) {
-                console.error("get REFRESH_TOKEN error : ", result);
-                return 500;
-            }
             context.commit(TYPE.SET_TOKEN, result.data);
             return 200;
-        } catch(e) {
-            console.error("actions > REFRESH_TOKEN > error : ", e);
+        } catch (e) {
+            console.error("actions > REFRESH_TOKEN > error : ", e.response.data);
+            if (e.response.data.code === "4012") {
+                console.error("actions > REFRESH_TOKEN > token expired");
+                return 401;
+            }
+            if (e.response.data.code === "3000") {
+                console.error("actions > REFRESH_TOKEN > user not found");
+                return 404;
+            }
             return 500;
         }
     }

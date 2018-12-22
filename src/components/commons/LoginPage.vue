@@ -34,8 +34,16 @@ export default {
     login: async function() {
       console.log("user : ", this.user);
       const result = await this.$store.dispatch(`${TYPE.LOGIN}`, this.user);
-      if (!result) {
-        console.error("에러가 발생했습니다!!");
+      if (result !== 200) {
+        if (result === 404) {
+          console.error("유저가 없습니다.");
+        }
+        if (result === 400) {
+          console.error("패스워드가 잘못되었습니다.");
+        }
+        if (result === 500) {
+          console.error("서버에 문제가 있습니다.");
+        }
         return false;
       }
       console.log("access token : ", this.token.accessToken);

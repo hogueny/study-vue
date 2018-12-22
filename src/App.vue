@@ -39,7 +39,7 @@ export default {
             await this.$store.dispatch(`${TYPE.GET_USER}`);
             return true;
           }
-          if (refresh === 500 || refersh === 404) {
+          if (refresh === 500 || refersh === 404 || refresh === 4404) {
             return false;
           }
         }
