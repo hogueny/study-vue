@@ -39,14 +39,14 @@ export default {
         return false;
       }
       console.log("access token : ", this.token.accessToken);
-      console.log("refresh token : ", this.token.refresshToken);
+      console.log("refresh token : ", this.token.refreshToken);
       const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`) // token 으로 가져오기 때문에 넘길 필요가 없음 
       if (!getUser) {
         console.error("유저를 가져오다 에러남!!");
         return false;
       }
       localStorage.setItem('token', this.token.accessToken);
-      localStorage.setItem('refreshToken', this.token.refresshToken);
+      localStorage.setItem('refreshToken', this.token.refreshToken);
       this.$router.push({ path: "/" }); // home화면으로 이동
     }
   }

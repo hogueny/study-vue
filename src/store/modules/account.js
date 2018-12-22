@@ -4,7 +4,7 @@ import * as TYPE from "../../config/mutation-types"
 const state = {
     token: {
         accessToken: "",
-        refresshToken: ""
+        refreshToken: ""
     },
     user: {
         idx: -1,
@@ -68,7 +68,7 @@ const mutations = {
     [TYPE.LOGIN](state, payload) {
         console.log("mutation called")
         state.token.accessToken = payload.accessToken
-        state.token.refresshToken = payload.refresshToken
+        state.token.refreshToken = payload.refreshToken
     },
     [TYPE.GET_USER](state, payload) {
         console.log("mutation called")
@@ -77,7 +77,7 @@ const mutations = {
     [TYPE.SET_TOKEN](state, payload) {
         console.log("mutation called")
         state.token.accessToken = payload.accessToken
-        state.token.refresshToken = payload.refresshToken
+        state.token.refreshToken = payload.refreshToken
     }
 }
 

@@ -26,7 +26,7 @@ export default {
     if (accessToken) {
       this.$store.dispatch(`${TYPE.SET_TOKEN}`, {
         accessToken: accessToken,
-        refresshToken: refreshToken
+        refreshToken: refreshToken
       });
       const getUser = await this.$store.dispatch(`${TYPE.GET_USER}`);
       if (!getUser) {
