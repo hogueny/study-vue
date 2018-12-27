@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-const baseURL = "http://localhost:3000";
+const baseURL = "http://localhost:3031";
 
 export function login(user) {
     return axios.post(`${baseURL}/users/login`, {

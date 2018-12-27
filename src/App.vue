@@ -1,26 +1,15 @@
 <template>
-  <div id="app">
-    <custom-header></custom-header>
-    <router-view></router-view>
-    <custom-footer></custom-footer>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import Header from "./components/commons/Header.vue";
-import Footer from "./components/commons/Footer.vue";
 import * as TYPE from "./config/mutation-types";
-
 export default {
-  components: {
-    "custom-header": Header,
-    "custom-footer": Footer
-  },
-  name: "App",
+  name: 'app',
   created: async function() {
     const accessToken = localStorage.getItem("token");
     const refreshToken = localStorage.getItem("refreshToken");
-    const asdf = localStorage.getItem("asdf");
+
     console.log("token : ", accessToken);
     console.log("refreshToken : ", refreshToken);
     if (accessToken) {
@@ -45,15 +34,35 @@ export default {
         }
         return false;
       }
+    } else {
+      this.$store.commit(`${TYPE.GET_USER}`, {
+        id: -1,
+        name: "",
+        email: "",
+        regDate: "",
+        modDate: "",
+        age: "",
+        role: "",
+        uuid: ""
+      })
     }
   }
-};
+}
 </script>
 
-<style>
-#app {
-  width: auto;
-  height: 1506px;
-  border: 1px solid red;
-}
+<style lang="scss">
+  // CoreUI Icons Set
+  @import '~@coreui/icons/css/coreui-icons.min.css';
+  /* Import Font Awesome Icons Set */
+  $fa-font-path: '~font-awesome/fonts/';
+  @import '~font-awesome/scss/font-awesome.scss';
+  /* Import Simple Line Icons Set */
+  $simple-line-font-path: '~simple-line-icons/fonts/';
+  @import '~simple-line-icons/scss/simple-line-icons.scss';
+  /* Import Flag Icons Set */
+  @import '~flag-icon-css/css/flag-icon.min.css';
+  /* Import Bootstrap Vue Styles */
+  @import '~bootstrap-vue/dist/bootstrap-vue.css';
+  // Import Main styles for this application
+  @import 'assets/scss/style';
 </style>
