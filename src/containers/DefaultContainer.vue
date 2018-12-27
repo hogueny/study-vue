@@ -10,7 +10,7 @@
       <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
         <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
-        <b-nav-item class="px-3">Settings</b-nav-item>
+        <b-nav-item class="px-3">{{user.name === "" ? "" : user.name + "님"}}</b-nav-item>
         <b-nav-item class="px-3"><DefaultHeaderDropdownAccnt/></b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto"></b-navbar-nav>
@@ -51,6 +51,7 @@ import nav from '@/_nav'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultAside from './DefaultAside'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
+import { mapGetters } from "vuex";
 
 export default {
   name: 'DefaultContainer',
@@ -80,7 +81,8 @@ export default {
     },
     list () {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
-    }
+    },
+    ...mapGetters(["user"])
   }
 }
 </script>

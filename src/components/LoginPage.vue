@@ -1,11 +1,32 @@
 <template>
   <div id="login-page">
-    <label>이메일</label>
-    <input type="email" v-model="user.email">
-    <label>비밀번호</label>
-    <input type="password" v-model="user.password">
-    <button @click="login">로그인</button>
-    {{token}}
+    <b-card>
+          <div slot="header">
+            로그인
+          </div>
+          <b-form @submit.prevent="login">
+            <b-form-group>
+              <b-input-group>
+                <b-input-group-prepend>
+                  <b-input-group-text><i class="fa fa-envelope"></i></b-input-group-text>
+                </b-input-group-prepend>
+                <b-form-input type="text" placeholder="Email" autocomplete="email" v-model="user.email"></b-form-input>
+              </b-input-group>
+            </b-form-group>
+            <b-form-group>
+              <b-input-group>
+                <b-input-group-prepend>
+                  <b-input-group-text><i class="fa fa-asterisk"></i></b-input-group-text>
+                </b-input-group-prepend>
+                <b-form-input type="password" placeholder="Password" autocomplete="current-password" v-model="user.password"></b-form-input>
+              </b-input-group>
+            </b-form-group>
+            <div class="form-group form-actions">
+              <b-button type="submit" size="sm" variant="success">Submit</b-button>
+            </div>
+          </b-form>
+        </b-card>
+
   </div>
 </template>
 
