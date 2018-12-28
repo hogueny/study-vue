@@ -21,6 +21,16 @@ const getters = {
 
 // actions
 const actions = {
+    async [TYPE.GET_BOARDS](context, name) {
+        try {
+            const result = await api.getBoards();
+            context.commit(TYPE.SET_BOARDS, result.data);
+            return 200;
+        } catch (e) {
+            console.error("GET_BOARDS error : ", e);
+            return 500;
+        }
+    },
     async [TYPE.CREATE_BOARD](context, name) {
         try {
             const token = localStorage.getItem("token");
@@ -40,7 +50,7 @@ const actions = {
                 console.error("actions > CREATE_BOARD > name min 3 max 3");
                 return 400;
             }
-            
+
             if (e.response.data.code === "4001") {
                 console.error("actions > CREATE_BOARD > user role not permitted");
                 return 4001;
@@ -64,10 +74,10 @@ const actions = {
                 return 404;
             }
             if (e.response.data.code === "3001") {
-                console.error("actions > CREATE_BOARD > name min 3 max 3");
+                console.error("actions > CREATE_BOARD > name min 3");
                 return 400;
             }
-            
+
             if (e.response.data.code === "4001") {
                 console.error("actions > CREATE_BOARD > user role not permitted");
                 return 4001;
