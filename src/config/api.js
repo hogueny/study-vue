@@ -2,6 +2,8 @@ import * as axios from "axios";
 
 const baseURL = "http://localhost:3031";
 
+
+// for account 
 export function login(user) {
     return axios.post(`${baseURL}/users/login`, {
         email: user.email === undefined ? "" : user.email,
@@ -57,4 +59,43 @@ export function changeMyInfo(params) {
             "Content-Type": "application/json"
         }
     });
+}
+
+// for board admin
+// params: {name: string, token: string}
+export function createBoard(params) {
+    return axios.post(`${baseURL}/boards`, {
+        name: params.name === undefined ? "" : params.name
+    }, {
+            headers: {
+                "Authorization": params.token,
+                "Content-Type": "application/json"
+            }
+        });
+}
+
+// params: {boardId: number, name: string, token: string}
+export function updateBoard(params) {
+    return axios.put(`${baseURL}/boards/${params.boardId}`, {
+        name: params.name === undefined ? "" : params.name
+    }, {
+            headers: {
+                "Authorization": params.token,
+                "Content-Type": "application/json"
+            }
+        });
+}
+
+// params: {boardId: number}
+export function removeBoard(params) {
+    return axios.delete(`${baseURL}/boards/${params.boardId}`, {
+        headers: {
+            "Authorization": params.token,
+            "Content-Type": "application/json"
+        }
+    });
+}
+
+export function getBoards() {
+    return axios.get(`${baseURL}/boards`);
 }

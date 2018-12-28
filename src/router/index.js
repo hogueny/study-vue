@@ -5,6 +5,8 @@ import Router from 'vue-router'
 // Components
 const Board = () => import("@/components/Board")
 const LoginPage = () => import("@/components/LoginPage")
+const BoardSet = () => import("@/components/BoardSet")
+const SignUpPage = () => import("@/components/SignUpPage")
 // Containers
 const DefaultContainer = () => import('@/containers/DefaultContainer')
 
@@ -57,6 +59,7 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const permission = () => import('@/views/pages/permission')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -81,9 +84,19 @@ export default new Router({
           component: Board
         },
         {
+          path: "board/set",
+          name: "boardSet",
+          component: BoardSet
+        },
+        {
           path: "login",
           name: "login",
           component: LoginPage
+        },
+        {
+          path: "signup",
+          name: "signup",
+          component: SignUpPage
         },
         {
           path: 'dashboard',
@@ -95,7 +108,7 @@ export default new Router({
           redirect: '/theme/colors',
           name: 'Theme',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -122,9 +135,9 @@ export default new Router({
         },
         {
           path: 'users',
-          meta: { label: 'Users'},
+          meta: { label: 'Users' },
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -133,7 +146,7 @@ export default new Router({
             },
             {
               path: ':id',
-              meta: { label: 'User Details'},
+              meta: { label: 'User Details' },
               name: 'User',
               component: User,
             },
@@ -144,7 +157,7 @@ export default new Router({
           redirect: '/base/cards',
           name: 'Base',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -234,7 +247,7 @@ export default new Router({
           redirect: '/buttons/standard-buttons',
           name: 'Buttons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -264,7 +277,7 @@ export default new Router({
           redirect: '/icons/font-awesome',
           name: 'Icons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -294,7 +307,7 @@ export default new Router({
           redirect: '/notifications/alerts',
           name: 'Notifications',
           component: {
-            render (c) { return c('router-view') }
+            render(c) { return c('router-view') }
           },
           children: [
             {
@@ -321,7 +334,7 @@ export default new Router({
       redirect: '/pages/404',
       name: 'Pages',
       component: {
-        render (c) { return c('router-view') }
+        render(c) { return c('router-view') }
       },
       children: [
         {
@@ -343,6 +356,11 @@ export default new Router({
           path: 'register',
           name: 'Register',
           component: Register
+        },
+        {
+          path: "permission",
+          name: "permission",
+          component: permission
         }
       ]
     }

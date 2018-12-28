@@ -10,12 +10,19 @@
       <b-dropdown-item>
         <i class="fa fa-bell-o"/>수정
       </b-dropdown-item>
-      <b-dropdown-item v-if="user.id === -1" @click="login">
-        <i class="fa fa-lock"/>로그인
-      </b-dropdown-item>
-      <b-dropdown-item v-else @click="logout">
-        <i class="fa fa-lock"/>로그아웃
-      </b-dropdown-item>
+      <div v-if="user.id === -1">
+        <b-dropdown-item @click="login">
+          <i class="fa fa-lock"/>로그인
+        </b-dropdown-item>
+        <b-dropdown-item @click="signup">
+          <i class="fa fa-lock"/>회원 가입
+        </b-dropdown-item>
+      </div>
+      <div v-else @click="logout">
+        <b-dropdown-item>
+          <i class="fa fa-lock"/>로그아웃
+        </b-dropdown-item>
+      </div>
     </template>
   </AppHeaderDropdown>
 </template>
@@ -44,6 +51,9 @@ export default {
     login: function() {
       console.log("go to login page");
       this.$router.push("/login");
+    },
+    signup: function() {
+      this.$router.push("/signup");
     }
   }
 };

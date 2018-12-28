@@ -106,6 +106,24 @@ const actions = {
             }
             return 500;
         }
+    },
+    async [TYPE.CREATE_USER](context, payload) {
+        try {
+            await api.createUser({
+                name: payload.name,
+                password: payload.password,
+                age: payload.age,
+                email: payload.email
+            });
+            // 회원가입만 하고 호출하는 쪽에서 로그인까지 시키는 것이 코드관리에 더 좋아 보임
+            return 201;
+        } catch (e) {
+            if (e.response.data.code === "3001") {
+                console.error("actions > CREATE_USER > field validation fail");
+                return 400;
+            }
+            return 500;
+        }
     }
 }
 
