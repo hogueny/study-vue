@@ -7,14 +7,9 @@
         </b-card-header>
         <b-card-body>
           <b-row class="align-items-center">
-            <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
+            <b-col cols="6" sm="4" md="2">
+              <input type="text" v-model="boardName">
               <b-button block variant="primary" @click="createBoard">생성</b-button>
-            </b-col>
-            <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
-              <b-button block variant="warning">수정</b-button>
-            </b-col>
-            <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
-              <b-button block variant="danger">Danger</b-button>
             </b-col>
           </b-row>
         </b-card-body>
@@ -60,6 +55,11 @@ import moment from "moment";
 
 export default {
   name: "admin-bar",
+  data: function() {
+    return {
+      boardName: "boardName"
+    };
+  },
   components: {
     permission
   },
@@ -70,7 +70,28 @@ export default {
     ...mapGetters(["user", "boards"])
   },
   methods: {
-    createBoard: async function() {},
+    createBoard: async function() {
+      const result = await this.$store.dispatch(
+        `${TYPE.CREATE_BOARD}`,
+        this.boardName
+      );
+      if (result !== 201) {
+        if (result === 500) {
+          console.error("서버 에러");
+        }
+        if (result === 400) {
+          console.error("이름이 최소 3글자 되야함");
+        }
+        if (result === 404) {
+          console.error("사용자가 없음");
+        }
+        if (result === 4001) {
+          console.error("권한이 없음");
+        }
+        return false;
+      }
+      console.log("성공적으로 생성됨");
+    },
     updateBoard: async function(item) {
       const result = await this.$store.dispatch(`${TYPE.UPDATE_BOARD}`, {
         boardId: item.id,
