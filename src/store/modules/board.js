@@ -21,7 +21,35 @@ const getters = {
 
 // actions
 const actions = {
-    async [TYPE.GET_BOARDS](context, name) {
+    async [TYPE.DELETE_BOARD](context, boardId) {
+        try {
+            console.log(`boardId : ${boardId}`)
+            const token = localStorage.getItem("token");
+            if (!token || token === "") {
+                return 401;
+            }
+            const result = await api.removeBoard({boardId: boardId, token: token});
+            context.commit(TYPE.DELETE_BOARD, boardId);
+            return 204;
+        } catch (e) {
+            console.error("DELETE_BOARD error : ", e);
+            console.error("actions > DELETE_BOARD > error : ", e.response.data);
+            if (e.response.data.code === "4012" && e.response.data.category === "Security Error") {
+                console.error("actions > DELETE_BOARD > token expired");
+                return 4401;
+            }
+            if (e.response.data.code === "4012" || e.response.data.code === "4008") {
+                console.error("actions > DELETE_BOARD > user or board not found");
+                return 404;
+            }
+            if (e.response.data.code === "4001") {
+                console.error("actions > DELETE_BOARD > 권한이 없음");
+                return 401
+            }
+            return 500;
+        }
+    },
+    async [TYPE.GET_BOARDS](context) {
         try {
             const result = await api.getBoards();
             context.commit(TYPE.SET_BOARDS, result.data);
@@ -105,6 +133,14 @@ const mutations = {
             state.boards[idx] = payload;
         } else {
             state.boards = [payload];
+        }
+    },
+    [TYPE.DELETE_BOARD](state, boardId) {
+        if (Array.isArray(state.boards)) {
+            const idx = _.findIndex(state.boards, (board) => board.id === boardId)
+            state.boards.splice(idx, 1);
+        } else {
+            state.boards = [];
         }
     }
 }

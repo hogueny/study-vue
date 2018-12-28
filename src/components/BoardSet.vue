@@ -80,7 +80,7 @@ export default {
         if (result === 400) {
           console.error("이름이 최소 3글자 되야함");
         }
-        if (result === 400) {
+        if (result === 404) {
           console.error("없는 게시판");
         }
         if (result === 401) {
@@ -89,11 +89,52 @@ export default {
         if (result === 500) {
           console.error("서버 에러~");
         }
-        return false
+        return false;
       }
-      console.log("성공적으로 수정됨")
+      console.log("성공적으로 수정됨");
     },
-    removeBoard: async function(id) {}
+    removeBoard: async function(id) {
+      const result = await this.$store.dispatch(`${TYPE.DELETE_BOARD}`, id);
+      if (result !== 204) {
+        if (result === 404) {
+          console.error("없는 게시판");
+        }
+        if (result === 401) {
+          console.error("권한이 없음");
+        }
+        if (result === 500) {
+          console.error("서버 에러~");
+        }
+        if (result === 4401) {
+          console.error("토큰 만료");
+          const refresh = await this.$store.dispatch(`${TYPE.REFRESH_TOKEN}`);
+          if (refresh === 200) {
+            const resultByRefresh = await this.$store.dispatch(
+              `${TYPE.DELETE_BOARD}`,
+              id
+            );
+            if (resultByRefresh !== 204) {
+              if (result === 404) {
+                console.error("없는 게시판");
+              }
+              if (result === 401) {
+                console.error("권한이 없음");
+              }
+              if (result === 500) {
+                console.error("서버 에러~");
+              }
+            }
+            console.log("성공적으로 삭제됨 2");
+            return true;
+          }
+          if (refresh === 500 || refersh === 404 || refresh === 4404) {
+            return false;
+          }
+        }
+        return false;
+      }
+      console.log("성공적으로 삭제됨");
+    }
   },
   filters: {
     dateToPritty: function(target) {
