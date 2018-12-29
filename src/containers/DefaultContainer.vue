@@ -30,7 +30,7 @@
       <AppSidebar fixed>
         <SidebarHeader/>
         <SidebarForm/>
-        <SidebarNav :navItems="nav"></SidebarNav>
+        <SidebarNav :navItems="makeBoardNavItems"></SidebarNav>
         <SidebarFooter/>
         <SidebarMinimizer/>
       </AppSidebar>
@@ -58,57 +58,86 @@
 </template>
 
 <script>
-import nav from "@/_nav";
-import {
-  Header as AppHeader,
-  SidebarToggler,
-  Sidebar as AppSidebar,
-  SidebarFooter,
-  SidebarForm,
-  SidebarHeader,
-  SidebarMinimizer,
-  SidebarNav,
-  Aside as AppAside,
-  AsideToggler,
-  Footer as TheFooter,
-  Breadcrumb
-} from "@coreui/vue";
-import DefaultAside from "./DefaultAside";
-import DefaultHeaderDropdownAccnt from "./DefaultHeaderDropdownAccnt";
-import { mapGetters } from "vuex";
-
-export default {
-  name: "DefaultContainer",
-  components: {
-    AppHeader,
-    AppSidebar,
-    AppAside,
-    TheFooter,
+  import nav from "@/_nav";
+  import {
+    Aside as AppAside,
     Breadcrumb,
-    DefaultAside,
-    DefaultHeaderDropdownAccnt,
-    SidebarForm,
+    Footer as TheFooter,
+    Header as AppHeader,
+    Sidebar as AppSidebar,
     SidebarFooter,
-    SidebarToggler,
+    SidebarForm,
     SidebarHeader,
+    SidebarMinimizer,
     SidebarNav,
-    SidebarMinimizer
-  },
-  data() {
-    return {
-      nav: nav.items
-    };
-  },
-  computed: {
-    name() {
-      return this.$route.name;
+    SidebarToggler
+  } from "@coreui/vue";
+  import DefaultAside from "./DefaultAside";
+  import DefaultHeaderDropdownAccnt from "./DefaultHeaderDropdownAccnt";
+  import {mapGetters} from "vuex";
+  import * as TYPE from "../config/mutation-types";
+
+  export default {
+    name: "DefaultContainer",
+    components: {
+      AppHeader,
+      AppSidebar,
+      AppAside,
+      TheFooter,
+      Breadcrumb,
+      DefaultAside,
+      DefaultHeaderDropdownAccnt,
+      SidebarForm,
+      SidebarFooter,
+      SidebarToggler,
+      SidebarHeader,
+      SidebarNav,
+      SidebarMinimizer
     },
-    list() {
-      return this.$route.matched.filter(
-        route => route.name || route.meta.label
-      );
+    created: function () {
+      this.$store.dispatch(`${TYPE.GET_BOARDS}`);
     },
-    ...mapGetters(["user"])
-  }
-};
+    data() {
+      return {
+        nav: nav.items,
+        boardCount: 0
+      };
+    },
+    computed: {
+      makeBoardNavItems() {
+        console.log(`this.boardCount = ${this.boardCount}`)
+        console.log(`this.boards.length = ${this.boards.length}`)
+        if (this.boardCount === 0) {
+          for (let board of this.boards) {
+            this.nav.splice(2, 0, {
+              name: board.name,
+              url: `/board?name=${board.name}`,
+              icon: 'icon-pencil'
+            })
+          }
+        }
+        if (this.boardCount !== 0 && this.boardCount !== this.boards.length) {
+          this.nav.splice(2, this.boardCount)
+          for (let board of this.boards) {
+            this.nav.splice(2, 0, {
+              name: board.name,
+              url: `/board?name=${board.name}`,
+              icon: 'icon-pencil'
+            })
+          }
+        }
+        this.boardCount = this.boards.length
+        return this.nav
+      },
+      name() {
+        return this.$route.name;
+      },
+      list() {
+        return this.$route.matched.filter(
+          route => route.name || route.meta.label
+        );
+      },
+      ...mapGetters(["user", "boards"])
+    }
+  };
 </script>

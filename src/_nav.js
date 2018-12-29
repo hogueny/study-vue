@@ -18,16 +18,6 @@ export default {
       }
     },
     {
-      name: '자유 게시판',
-      url: '/board?name=free',
-      icon: 'icon-drop'
-    },
-    {
-      name: '공지 사항',
-      url: '/board?name=notice',
-      icon: 'icon-pencil'
-    },
-    {
       title: true,
       name: 'Theme',
       class: '',
