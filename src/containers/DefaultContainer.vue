@@ -16,13 +16,13 @@
       <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
         <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
-        <b-nav-item class="px-3">{{user.name === "" ? "" : user.name + "님"}}</b-nav-item>
+        <b-nav-item class="px-3">{{user.name === "" ? "" : user.name + "님" + ` (${user.role})`}}</b-nav-item>
         <b-nav-item class="px-3">
           <DefaultHeaderDropdownAccnt/>
         </b-nav-item>
-        <b-nav-item class="px-3" to="/board/set" v-if="user.role === 'ADMIN'">게시판 설정</b-nav-item>
-        <b-nav-item class="px-3" v-if="user.role === 'ADMIN'">관리자용</b-nav-item>
-        <b-nav-item class="px-3" v-if="user.role === 'ADMIN'">관리자용2</b-nav-item>
+        <b-nav-item class="px-3" to="/board/set" v-if="user.role === 'admin'">게시판 설정</b-nav-item>
+        <b-nav-item class="px-3" v-if="user.role === 'admin'">관리자용</b-nav-item>
+        <b-nav-item class="px-3" v-if="user.role === 'admin'">관리자용2</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto"></b-navbar-nav>
     </AppHeader>

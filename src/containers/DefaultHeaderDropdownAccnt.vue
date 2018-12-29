@@ -8,19 +8,19 @@
         <strong>{{user.name}} 계정</strong>
       </b-dropdown-header>
       <b-dropdown-item>
-        <i class="fa fa-bell-o"/>수정
+        <i class="fa fa-bell-o"></i>수정
       </b-dropdown-item>
       <div v-if="user.id === -1">
         <b-dropdown-item @click="login">
-          <i class="fa fa-lock"/>로그인
+          <i class="fa fa-lock"></i>로그인
         </b-dropdown-item>
         <b-dropdown-item @click="signup">
-          <i class="fa fa-lock"/>회원 가입
+          <i class="fa fa-lock"></i>회원 가입
         </b-dropdown-item>
       </div>
       <div v-else @click="logout">
         <b-dropdown-item>
-          <i class="fa fa-lock"/>로그아웃
+          <i class="fa fa-lock"></i>로그아웃
         </b-dropdown-item>
       </div>
     </template>
