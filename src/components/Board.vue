@@ -36,16 +36,15 @@
 <script>
 export default {
   name: "board",
+  data: function () {
+    return {
+      boardName: ""
+    }
+  },
   computed: {
     getBoardName: function() {
-      const board = this.$route.query.name;
-      if (board === "free") {
-        return "자유 게시판";
-      } else if (board === "notice") {
-        return "공지사항";
-      } else {
-        return "이름 없음";
-      }
+      this.boardName = this.$route.query.name;
+      return this.boardName
     }
   }
 };
