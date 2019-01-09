@@ -5,6 +5,7 @@ import Router from 'vue-router'
 // Components
 const Board = () => import("@/components/Board")
 const LoginPage = () => import("@/components/LoginPage")
+const ModifyPage = () => import("@/components/ModifyPage")
 const BoardSet = () => import("@/components/BoardSet")
 const SignUpPage = () => import("@/components/SignUpPage")
 // Containers
@@ -64,7 +65,7 @@ const permission = () => import('@/views/pages/permission')
 // Users
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
-
+const MyInfo = () => import('@/components/MyInfo')
 Vue.use(Router)
 
 export default new Router({
@@ -92,6 +93,16 @@ export default new Router({
           path: "login",
           name: "login",
           component: LoginPage
+        },
+        {
+          path: "modify",
+          name: "modify",
+          component: ModifyPage
+        },
+        {
+          path: "MyInfo",
+          name: "MyInfo",
+          component: MyInfo
         },
         {
           path: "signup",

@@ -2,7 +2,7 @@
   <div class="app">
     <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile/>
-      <b-link class="navbar-brand" to="#">
+      <b-link class="navbar-brand" to="/dashboard">
         <img class="navbar-brand-full" src="/ms-icon-310x310.png" width="89" height="55" alt="logo">
         <img
           class="navbar-brand-minimized"
@@ -16,7 +16,7 @@
       <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
         <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
-        <b-nav-item class="px-3">{{user.name === "" ? "" : user.name + "님" + ` (${user.role})`}}</b-nav-item>
+        <b-nav-item class="px-3" to="/MyInfo">{{user.name === "" ? "" : user.name + "님" + ` (${user.role})`}}</b-nav-item>
         <b-nav-item class="px-3">
           <DefaultHeaderDropdownAccnt/>
         </b-nav-item>

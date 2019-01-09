@@ -7,9 +7,6 @@
       <b-dropdown-header tag="div" class="text-center">
         <strong>{{user.name}} 계정</strong>
       </b-dropdown-header>
-      <b-dropdown-item>
-        <i class="fa fa-bell-o"></i>수정
-      </b-dropdown-item>
       <div v-if="user.id === -1">
         <b-dropdown-item @click="login">
           <i class="fa fa-lock"></i>로그인
@@ -18,8 +15,11 @@
           <i class="fa fa-lock"></i>회원 가입
         </b-dropdown-item>
       </div>
-      <div v-else @click="logout">
-        <b-dropdown-item>
+      <div v-else>
+        <b-dropdown-item @click="modify">
+          <i class="fa fa-bell-o"></i>수정
+        </b-dropdown-item>
+        <b-dropdown-item @click="logout">
           <i class="fa fa-lock"></i>로그아웃
         </b-dropdown-item>
       </div>
@@ -44,6 +44,10 @@ export default {
     ...mapGetters(["user"])
   },
   methods: {
+    modify: async function() {
+      console.log("go to modify page");
+      this.$router.push("/modify");
+    },
     logout: async function() {
       this.$store.commit(`${TYPE.LOGOUT}`);
       this.$router.push("/");
