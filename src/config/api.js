@@ -99,3 +99,58 @@ export function removeBoard(params) {
 export function getBoards() {
     return axios.get(`${baseURL}/boards`);
 }
+
+// board message ///
+// params: {boardId : number, title : string, contents : string, token : string}
+export function createMessage(params){
+    return axios.post(`${baseURL}/message`,{
+        title : params.title === undefined ? "" : params.title,
+        contents : params.contents === undefined ? "" : params.contents,
+        boardId : params.boardId === undefined ? "" : params.boardId
+    },
+       {
+            headers: {
+                "Authorization": params.token,
+                "Content-Type": "application/json"
+            }
+        });
+}
+
+// params: {token : string}
+export function getUserMessages(params){
+    return axios.get(`${baseURL}/message`,
+    {
+        headers: {
+            "Authorization": params.token,
+            "Content-Type": "application/json"
+        }
+    });
+}
+// params: {messageId : number, boardId : number, title : string, contents, string}
+export function updateMessage(params){
+    return axios.put(`${baseURL}/message/${params.messageId}`, {
+        boardId: params.boardId === undefined ? "" : params.boardId,
+        title: params.title === undefined ? "" : params.title,
+        contents : params.contents === undefined ? "" : params.contents
+    }, {
+             headers: {
+                "Authorization": params.token,
+                "Content-Type": "application/json"
+             }
+        });
+}
+
+// params : {messageId : number, token : string}
+export function removeMessage(params) {
+    return axios.delete(`${baseURL}/message/${params.messageId}`, {
+        headers : {
+            "Authorization": params.token,
+            "Content-Type": "application/json"
+        }
+    });
+}
+/*
+export function getBoardsMessages(params){
+    return axios.get(`${baseURL}/message/${params.boardId}/messages`);
+}
+*/
