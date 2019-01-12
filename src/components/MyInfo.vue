@@ -49,7 +49,6 @@ export default {
   name: "my-info",
   data: function() {
     return {
-      $
     };
   },
   created: function() {
