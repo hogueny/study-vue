@@ -182,7 +182,7 @@ const mutations = {
         }
     },
     [TYPE.DELETE_MESSAGE](state, messageId){
-        if (Array.isArray(state.boards)) {
+        if (Array.isArray(state.messages)) {
             const idx = _.findIndex(state.messages, (message) => message.id === messageId)
             state.messages.splice(idx,1);
         } else {
