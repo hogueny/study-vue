@@ -13,17 +13,7 @@
         <b-card-body>
           <b-row class="align-items-center">
             <b-col cols="6" sm="4" md="2">
-              <b-form-group>
-                <b-input-group>
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="cui-info icons"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input type="number" placeholder="BoardID" v-model="message.boardId"></b-form-input>
-                </b-input-group>
-              </b-form-group>
-              <b-form-group>
+              
                 <b-input-group>
                   <b-input-group-prepend>
                     <b-input-group-text>
@@ -53,7 +43,7 @@
       <b-card header-tag="header" footer-tag="footer">
         <div slot="header">
           <i class="fa fa-align-justify"></i>
-          <strong>메시지 목록</strong>
+          <strong> 메시지 목록</strong>
           <div class="card-header-actions">
             <a
               href="https://bootstrap-vue.js.org/docs/components/list-group"
@@ -67,8 +57,6 @@
         </div>
         <b-list-group v-for="item in messages" :key="item.id">
           <b-list-group-item>
-            메시지ID : {{item.id}}
-            <br>
             제목 : {{item.title}}
             <br>
             내용 : {{item.contents}}
@@ -95,8 +83,7 @@
         </div>
         <b-list-group v-for="item in messages" :key="item.id">
           <b-list-group-item>
-            메시지ID : {{item.id}}
-            <br>제목 :
+            제목 :
             <input type="text" v-model="item.title">
             <br>내용 :
             <input type="text" v-model="item.contents">
@@ -136,6 +123,7 @@ export default {
         title: "",
         contents: ""
       },
+      boardId: this.$route.query.id,
       dismissCountDown: 0,
       msg: "",
       type: "success"
@@ -146,7 +134,7 @@ export default {
     permission
   },
   created: function() {
-    this.$store.dispatch(`${TYPE.GET_MESSAGE}`);
+    this.$store.dispatch(`${TYPE.GET_MESSAGES}`,this.boardId);
   },
   computed: {
     ...mapGetters(["user", "boards", "messages"]),

@@ -59,6 +59,12 @@ const actions = {
             console.error("actions > CREATE_MESSAGE > user role not permitted");
             return 4001;
         }
+
+        if (e.response.data.code === "4012" && e.reponse.data.category === "Security Error") {
+            console.error("actions > CREATE_MESSAGE > token expired");
+            return 4401;
+        }
+
         return 500;
         }
     },
@@ -100,17 +106,20 @@ const actions = {
             return 200;
         } catch (e) {
             console.error("actions > UPDATE_MESSAGE > error : ", e.response.data);
-            if (e.response.data.code === "4012" || e.response.data.code === "4008") {
+            if (e.response.data.code === "4012") {
                 console.error("actions > UPDATE_MESSAGE > user or board not found");
                 return 404;
             }
+            if (e.response.data.code === "4008") {
+                console.error("actions > UPDATE_MESSAGE > not your message");
+                return 401;
+            }
             if (e.response.data.code === "3001") {
-                console.error("actions > CREATE_MESSAGE > name min 3");
+                console.error("actions > UPDATE_MESSAGE > name min 3");
                 return 400;
             }
-
             if (e.response.data.code === "4001") {
-                console.error("actions > CREATE_MESSAGE > user role not permitted");
+                console.error("actions > UPDATE_MESSAGE > user role not permitted");
                 return 4001;
             }
             return 500;
@@ -143,21 +152,21 @@ const actions = {
             }
             return 500;
         }
-    }
+    },
 
-/*
+
 // getMessageByBoardId
-async [TYPE.GET_MESSAGES](params){
+async [TYPE.GET_MESSAGES](context,boardId){
         try {
-            console.log(`boardId : ${params.boardId}`);
-            const result = await api.getBoardsMessages(params.boardId);
+            console.log(`boardId : ${boardId}`);
+            const result = await api.getBoardsMessages(boardId);
             context.commit(TYPE.SET_MESSAGES, result.data);
             return 200;
         } catch(e) {
             console.error("GET_MESSAGES_BY_ID error : ",e);
         }
     }
-*/
+
 
 }
 

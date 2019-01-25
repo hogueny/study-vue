@@ -8,7 +8,8 @@
         <b-card-body>
           <b-row class="align-items-center">
             <b-col cols="6" sm="4" md="2">
-              <input type="text" v-model="boardName">
+              name : <input type="text" v-model="board.name">
+              role : <input type="text" v-model="board.role">
               <b-button block variant="primary" @click="createBoard">생성</b-button>
             </b-col>
           </b-row>
@@ -32,9 +33,9 @@
         </div>
         <b-list-group v-for="item in boards" :key="item.id">
           <b-list-group-item>
-            이름
-            <input type="text" v-model="item.name">
-            생성일: {{item.regDate | dateToPritty}}
+            이름 : <input type="text" v-model="item.name"> <br>
+            권한 : <input type="text" v-model="item.role"> <br>
+            생성일: {{item.regDate | dateToPritty}} <br>
             <b-button variant="warning" @click="updateBoard(item)">수정</b-button>
             <b-button variant="danger" @click="removeBoard(item.id)">삭제</b-button>
           </b-list-group-item>
@@ -64,7 +65,10 @@
     name: "admin-bar",
     data: function () {
       return {
-        boardName: "boardName",
+        board:{
+          name : "",
+          role : ""
+        },
         dismissCountDown: 0,
         msg: "",
         type: "success"
@@ -91,7 +95,7 @@
       createBoard: async function () {
         const result = await this.$store.dispatch(
           `${TYPE.CREATE_BOARD}`,
-          this.boardName
+          this.board
         );
         if (result !== 201) {
           if (result === 500) {
@@ -118,7 +122,8 @@
       updateBoard: async function (item) {
         const result = await this.$store.dispatch(`${TYPE.UPDATE_BOARD}`, {
           boardId: item.id,
-          name: item.name
+          name: item.name,
+          role: item.role
         });
         if (result !== 200) {
           if (result === 400) {

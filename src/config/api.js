@@ -65,7 +65,8 @@ export function changeMyInfo(params) {
 // params: {name: string, token: string}
 export function createBoard(params) {
     return axios.post(`${baseURL}/boards`, {
-        name: params.name === undefined ? "" : params.name
+        name: params.name === undefined ? "" : params.name,
+        role: params.role === undefined ? "" : params.role
     }, {
             headers: {
                 "Authorization": params.token,
@@ -77,7 +78,8 @@ export function createBoard(params) {
 // params: {boardId: number, name: string, token: string}
 export function updateBoard(params) {
     return axios.put(`${baseURL}/boards/${params.boardId}`, {
-        name: params.name === undefined ? "" : params.name
+        name: params.name === undefined ? "" : params.name,
+        role: params.role === undefined ? "" : params.role
     }, {
             headers: {
                 "Authorization": params.token,
@@ -149,8 +151,8 @@ export function removeMessage(params) {
         }
     });
 }
-/*
-export function getBoardsMessages(params){
-    return axios.get(`${baseURL}/message/${params.boardId}/messages`);
+// params : {boardId : number}
+
+export function getBoardsMessages(boardId) {
+    return axios.get(`${baseURL}/boards/${boardId}/messages`);
 }
-*/

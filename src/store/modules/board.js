@@ -6,6 +6,7 @@ const state = {
     board: {
         id: -1,
         name: "",
+        role: "",
         regDate: "",
         modDate: "",
     },
@@ -59,13 +60,13 @@ const actions = {
             return 500;
         }
     },
-    async [TYPE.CREATE_BOARD](context, name) {
+    async [TYPE.CREATE_BOARD](context, board) {
         try {
             const token = localStorage.getItem("token");
             if (!token || token === "") {
                 return 401;
             }
-            const result = await api.createBoard({ name: name, token: token });
+            const result = await api.createBoard({ name: board.name, role : board.role, token: token });
             context.commit(TYPE.CREATE_BOARD, result.data);
             return 201;
         } catch (e) {
@@ -92,7 +93,7 @@ const actions = {
             if (!token || token === "") {
                 return 401;
             }
-            const result = await api.updateBoard({ boardId: params.boardId, name: params.name, token: token });
+            const result = await api.updateBoard({ boardId: params.boardId, name: params.name, role: params.role, token: token });
             context.commit(TYPE.UPDATE_BOARD, result.data);
             return 200;
         } catch (e) {
