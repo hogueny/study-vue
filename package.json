@@ -8,7 +8,9 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
+    "prod": "vue-cli-service serve --mode prod",
     "build": "vue-cli-service build",
+    "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e"

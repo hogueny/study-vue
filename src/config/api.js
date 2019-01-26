@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-const baseURL = "http://localhost:3031";
+const baseURL = process.env.VUE_APP_API_HOST;
 
 
 // for account 
