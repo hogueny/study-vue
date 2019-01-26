@@ -30,7 +30,7 @@
         </div>
         <b-list-group v-for="item in messages" :key="item.id">
           <b-list-group-item>
-            게시판명 : {{item.boardId}} //* boarName으로 출력되게 수정해야됨 *// <br>
+            게시판명 : {{item.board.name}}<br>
             제목 : {{item.title}} <br>
             내용 : {{item.contents}} <br>  
             생성일: {{item.regDate | dateToPritty}} 
