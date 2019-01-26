@@ -130,6 +130,14 @@ export default {
       
     };
   },
+   watch: {
+      "$route.query": function (params) {
+          console.log("id : ", params)
+          this.boardId = params.id
+          this.title = params.title
+          this.$store.dispatch(`${TYPE.GET_MESSAGES}`,this.boardId);
+      }
+    },
   components: {
     permission
   },
