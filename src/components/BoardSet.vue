@@ -8,7 +8,7 @@
         <b-card-body>
           <b-row class="align-items-center">
             <b-col cols="6" sm="4" md="2">
-              name : <input type="text" v-model="board.name">
+              name : <input type="text" v-model="board.name"> <br>
               role : <input type="text" v-model="board.role">
               <b-button block variant="primary" @click="createBoard">생성</b-button>
             </b-col>
@@ -67,7 +67,7 @@
       return {
         board:{
           name : "",
-          role : ""
+          role : "nomal"
         },
         dismissCountDown: 0,
         msg: "",

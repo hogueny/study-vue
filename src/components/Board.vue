@@ -1,49 +1,11 @@
 <template>
   <div>
     <div class="message-page" v-if="user.id !== -1">
-      <b-card>
-        <b-card-header>
-          <strong>{{boardName}}</strong>
-        </b-card-header>
-      </b-card>
-      <b-card no-body>
-        <b-card-header>
-          <strong>메시지 생성</strong>
-        </b-card-header>
-        <b-card-body>
-          <b-row class="align-items-center">
-            <b-col cols="6" sm="4" md="2">
-              
-                <b-input-group>
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="cui-info icons"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input type="text" placeholder="Title" v-model="message.title"></b-form-input>
-                </b-input-group>
-              </b-form-group>
-              <b-form-group>
-                <b-input-group>
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="cui-info icons"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input type="text" placeholder="Contents" v-model="message.contents"></b-form-input>
-                </b-input-group>
-              </b-form-group>
-
-              <b-button block variant="primary" @click="createMessage">작성</b-button>
-            </b-col>
-          </b-row>
-        </b-card-body>
-      </b-card>
 
       <b-card header-tag="header" footer-tag="footer">
         <div slot="header">
           <i class="fa fa-align-justify"></i>
-          <strong> 메시지 목록</strong>
+          <strong>{{boardName}}</strong>
           <div class="card-header-actions">
             <a
               href="https://bootstrap-vue.js.org/docs/components/list-group"
@@ -55,16 +17,44 @@
             </a>
           </div>
         </div>
-        <b-list-group v-for="item in messages" :key="item.id">
-          <b-list-group-item>
-            제목 : {{item.title}}
-            <br>
-            내용 : {{item.contents}}
-            <br>
-            생성일: {{item.regDate | dateToPritty}}
-          </b-list-group-item>
-        </b-list-group>
+            <div>
+                 <board-list :list-array= "messages" />
+            </div>
       </b-card>
+
+        <b-card no-body>
+           <b-card-header>
+             <strong>메시지 생성</strong>
+           </b-card-header>
+        <b-card-body>
+          <b-row class="align-items-center">
+            <b-col cols="6" sm="4" md="2">
+              
+              <b-input-group>
+                <b-input-group-prepend>
+                  <b-input-group-text>
+                    <i class="cui-info icons"></i>
+                      </b-input-group-text>
+                  </b-input-group-prepend>
+                <b-form-input type="text" placeholder="Title" v-model="message.title"></b-form-input>
+              </b-input-group>
+              
+              <b-form-group>
+                <b-input-group>
+                  <b-input-group-prepend>
+                    <b-input-group-text>
+                      <i class="cui-info icons"></i>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                    <b-form-input type="text" placeholder="Contents" v-model="message.contents"></b-form-input>
+                </b-input-group>
+              </b-form-group>
+              <b-button block variant="primary" @click="createMessage">작성</b-button>
+            </b-col>
+          </b-row>
+        </b-card-body>
+      </b-card>
+
 
       <b-card header-tag="header" footer-tag="footer">
         <div slot="header">
@@ -113,7 +103,7 @@ import { mapGetters } from "vuex";
 import permission from "../views/pages/permission";
 import moment from "moment";
 import { async } from "q";
-
+import BoardList from './BoardList'
 export default {
   name: "message-page",
   data: function() {
@@ -127,7 +117,7 @@ export default {
       dismissCountDown: 0,
       msg: "",
       type: "success"
-      
+
     };
   },
    watch: {
@@ -139,7 +129,8 @@ export default {
       }
     },
   components: {
-    permission
+    permission,
+    BoardList
   },
   created: function() {
     this.$store.dispatch(`${TYPE.GET_MESSAGES}`,this.boardId);
