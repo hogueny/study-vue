@@ -154,21 +154,31 @@ const actions = {
         }
     },
 
-
 // getMessageByBoardId
-async [TYPE.GET_MESSAGES](context,boardId){
-        try {
-            console.log(`boardId : ${boardId}`);
-            const result = await api.getBoardsMessages(boardId);
-            context.commit(TYPE.SET_MESSAGES, result.data);
-            return 200;
-        } catch(e) {
-            console.error("GET_MESSAGES_BY_ID error : ",e);
-        }
+async [TYPE.GET_MESSAGES](context,params){
+    try {
+        console.log("params : ",params);
+        this.boardId = params[0],
+        this.page = params[1]
+        console.log("--message.js--");
+        console.log(`boardId : ${this.boardId}`);
+        console.log(`page : ${this.page}`);
+        const result = await api.getBoardsMessages(
+            {
+             boardId : this.boardId,
+             page : this.page
+            }
+        );
+        context.commit(TYPE.SET_MESSAGES, result.data);
+        return 200;
+    } catch(e) {
+        console.error("GET_MESSAGES_BY_ID error : ",e);
     }
+}
 
 
 }
+
 
 // mutations
 const mutations = {

@@ -18,7 +18,24 @@
           </div>
         </div>
             <div>
-                 <board-list :list-array= "messages" />
+              <table width>
+                <tr>
+                  <th>Id</th>
+                  <th>Title</th>
+                  <th>Contents</th> 
+                  <th>RegDate</th>
+                </tr>
+                <tr v-for="item in messages.result.data" :key="item.id">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.contents }}</td>
+                  <td>{{ item.regDate }}</td>
+                </tr>
+              </table>
+              
+              <span v-for="page in messages.totalPage" :key="page.no">
+                <b-button @click="paging(page)">{{page}}</b-button>
+              </span>
             </div>
       </b-card>
 
@@ -71,13 +88,12 @@
             </a>
           </div>
         </div>
-        <b-list-group v-for="item in messages" :key="item.id">
+        <b-list-group v-for="item in messages.result.data" :key="item.id">
           <b-list-group-item>
-            제목 :
-            <input type="text" v-model="item.title">
-            <br>내용 :
-            <input type="text" v-model="item.contents">
-            <br>
+            제목 : 
+            <input type="text" v-model="item.title"><br>
+            내용 :
+            <input type="text" v-model="item.contents"><br>
             <b-button variant="warning" @click="updateMessage(item)">수정</b-button>
             <b-button variant="danger" @click="removeMessage(item.id)">삭제</b-button>
           </b-list-group-item>
@@ -103,7 +119,6 @@ import { mapGetters } from "vuex";
 import permission from "../views/pages/permission";
 import moment from "moment";
 import { async } from "q";
-import BoardList from './BoardList'
 export default {
   name: "message-page",
   data: function() {
@@ -114,6 +129,7 @@ export default {
         contents: ""
       },
       boardId: this.$route.query.id,
+      page: this.$route.query.page,
       dismissCountDown: 0,
       msg: "",
       type: "success"
@@ -122,18 +138,20 @@ export default {
   },
    watch: {
       "$route.query": function (params) {
-          console.log("id : ", params)
+          console.log("--board.vue--")
+          console.log("params : ", params)
+          console.log("id:",params.id,"page:",params.page)
           this.boardId = params.id
           this.title = params.title
-          this.$store.dispatch(`${TYPE.GET_MESSAGES}`,this.boardId);
+          this.page = params.page
+          this.$store.dispatch(`${TYPE.GET_MESSAGES}`,[this.boardId,this.page]);
       }
     },
   components: {
-    permission,
-    BoardList
+    permission
   },
   created: function() {
-    this.$store.dispatch(`${TYPE.GET_MESSAGES}`,this.boardId);
+    this.$store.dispatch(`${TYPE.GET_MESSAGES}`,[this.boardId,this.page]);
   },
   computed: {
     ...mapGetters(["user", "boards", "messages"]),
@@ -142,6 +160,13 @@ export default {
     }
   },
   methods: {
+    paging(page){
+      // 버튼을 누를시 page값을 줄수있도록 하자
+      console.log("버튼 : ",page);
+      this.$route.query.page = page;
+      console.log("쿼리파라미터",this.$route.query.page);
+      this.$store.dispatch(`${TYPE.GET_MESSAGES}`,[this.boardId,this.$route.query.page]);
+    },
     setNoti(msg, type) {
       this.msg = msg;
       this.type = type;
@@ -258,6 +283,7 @@ export default {
       this.setNoti("성공적으로 삭제됨", "success");
     }
   },
+  
   filters: {
     dateToPritty: function(target) {
       return moment(target)
