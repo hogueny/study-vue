@@ -12,13 +12,18 @@ const state = {
         boardId: "",
         userId: ""
     },
-    messages: []
+    messages: [],
+    pageInfo: {
+        totalCount: 1,
+        totalPage: 1
+    }
 }
 
 // getters
 const getters = {
     message: state => state.message,
-    messages: state => state.messages
+    messages: state => state.messages,
+    pageInfo: state => state.pageInfo
 }
 
 
@@ -169,7 +174,11 @@ const actions = {
                     page: this.page
                 }
             );
-            context.commit(TYPE.SET_MESSAGES, result.data.result.data);
+            context.commit(TYPE.SET_MESSAGES, result.data.payload.list);
+            context.commit(TYPE.SET_PAGE_INFO, {
+                totalCount: result.data.totalCount,
+                totalPage: result.data.totalPage
+            });
             return 200;
         } catch (e) {
             console.error("GET_MESSAGES_BY_ID error : ", e);
@@ -208,6 +217,9 @@ const mutations = {
             state.messages = [];
         }
 
+    },
+    [TYPE.SET_PAGE_INFO](state, params) {
+        state.pageInfo = params
     }
 }
 

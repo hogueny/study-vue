@@ -111,7 +111,7 @@
           for (let board of this.boards) {
             this.nav.splice(2, 0, {
               name: board.name,
-              url: `/board?id=${board.id}&name=${board.name}&page=1`,
+              url: `/board?id=${board.id}&name=${board.name}`,
               icon: 'icon-pencil'
             })
           }

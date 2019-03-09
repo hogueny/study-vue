@@ -32,8 +32,7 @@
                   <td>{{ item.regDate }}</td>
                 </tr>
               </table>
-              
-              <span v-for="page in messages.totalPage" :key="page.no">
+              <span v-for="page in pageInfo.totalPage" :key="page">
                 <b-button @click="paging(page)">{{page}}</b-button>
               </span>
             </div>
@@ -154,7 +153,7 @@ export default {
     this.$store.dispatch(`${TYPE.GET_MESSAGES}`,[this.boardId,this.page]);
   },
   computed: {
-    ...mapGetters(["user", "boards", "messages"]),
+    ...mapGetters(["user", "boards", "messages", "pageInfo"]),
     boardName: function () {
       return this.$route.query.name
     }
