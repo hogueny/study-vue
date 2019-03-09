@@ -153,7 +153,7 @@ export function removeMessage(params) {
 }
 // params : {boardId : number}
 export function getBoardsMessages(params) {
-    return axios.get(`${baseURL}/boards/${params.boardId}/messages/${params.page}`,{
+    return axios.get(`${baseURL}/boards/${params.boardId}/messages?page=${params.page}`,{
         boardId: params.boardId === undefined ? "" : params.boardId,
         page: params.page === undefined ? "" : params.page
     });

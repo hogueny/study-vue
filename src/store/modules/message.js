@@ -24,48 +24,48 @@ const getters = {
 
 // actions
 const actions = {
-    async [TYPE.CREATE_MESSAGE](context,params) {
-    try{    
-        console.log(`boardId : ${params.boardId}`);
-        console.log(`title : ${params.title}`);
-        console.log(`contents : ${params.contents}`);
+    async [TYPE.CREATE_MESSAGE](context, params) {
+        try {
+            console.log(`boardId : ${params.boardId}`);
+            console.log(`title : ${params.title}`);
+            console.log(`contents : ${params.contents}`);
 
-        const token = localStorage.getItem("token");
-        if(!token || token === ""){
-            return 401;
-        }
-        const result = await api.createMessage({
-            boardId : params.boardId,
-            title : params.title,
-            contents : params.contents,
-            token : token
-        });
-        context.commit(TYPE.CREATE_MESSAGE, result.data);
-        return 201;
-    } catch (e) {
-        console.error("actions > CREATE_MESSAGE > error : ", e.response.data);
-        if (e.response.data.code === "4012" || e.response.data.code === "4008") {
-            console.error("actions > CREATE_MESSAGE > user not found");
-            return 404;
-        }
-        if (e.response.data.code === "3001") {
-            console.error("actions > CREATE_MESSAGE > title min 3 max 30");
-            console.error("actions > CREATE_MESSAGE > contents string");
-            console.error("actions > CREATE_MESSAGE > boardID is number and requeired");
-            return 400;
-        }
+            const token = localStorage.getItem("token");
+            if (!token || token === "") {
+                return 401;
+            }
+            const result = await api.createMessage({
+                boardId: params.boardId,
+                title: params.title,
+                contents: params.contents,
+                token: token
+            });
+            context.commit(TYPE.CREATE_MESSAGE, result.data);
+            return 201;
+        } catch (e) {
+            console.error("actions > CREATE_MESSAGE > error : ", e.response.data);
+            if (e.response.data.code === "4012" || e.response.data.code === "4008") {
+                console.error("actions > CREATE_MESSAGE > user not found");
+                return 404;
+            }
+            if (e.response.data.code === "3001") {
+                console.error("actions > CREATE_MESSAGE > title min 3 max 30");
+                console.error("actions > CREATE_MESSAGE > contents string");
+                console.error("actions > CREATE_MESSAGE > boardID is number and requeired");
+                return 400;
+            }
 
-        if (e.response.data.code === "4001") {
-            console.error("actions > CREATE_MESSAGE > user role not permitted");
-            return 4001;
-        }
+            if (e.response.data.code === "4001") {
+                console.error("actions > CREATE_MESSAGE > user role not permitted");
+                return 4001;
+            }
 
-        if (e.response.data.code === "4012" && e.reponse.data.category === "Security Error") {
-            console.error("actions > CREATE_MESSAGE > token expired");
-            return 4401;
-        }
+            if (e.response.data.code === "4012" && e.reponse.data.category === "Security Error") {
+                console.error("actions > CREATE_MESSAGE > token expired");
+                return 4401;
+            }
 
-        return 500;
+            return 500;
         }
     },
 
@@ -76,7 +76,7 @@ const actions = {
             if (!token || token === "") {
                 return 401;
             }
-            const result = await api.getUserMessages({token: token});
+            const result = await api.getUserMessages({ token: token });
             context.commit(TYPE.SET_MESSAGES, result.data);
             return 200;
         } catch (e) {
@@ -95,12 +95,12 @@ const actions = {
                 return 401;
             }
             const result = await api.updateMessage(
-                {  
-                    messageId : params.messageId,
+                {
+                    messageId: params.messageId,
                     boardId: params.boardId,
-                    title: params.title, 
-                    contents : params.contents, 
-                    token: token 
+                    title: params.title,
+                    contents: params.contents,
+                    token: token
                 });
             context.commit(TYPE.UPDATE_MESSAGE, result.data);
             return 200;
@@ -132,7 +132,7 @@ const actions = {
             if (!token || token === "") {
                 return 401;
             }
-            const result = await api.removeMessage({messageId: messageId, token: token});
+            const result = await api.removeMessage({ messageId: messageId, token: token });
             context.commit(TYPE.DELETE_MESSAGE, messageId);
             return 204;
         } catch (e) {
@@ -154,27 +154,27 @@ const actions = {
         }
     },
 
-// getMessageByBoardId
-async [TYPE.GET_MESSAGES](context,params){
-    try {
-        console.log("params : ",params);
-        this.boardId = params[0],
-        this.page = params[1]
-        console.log("--message.js--");
-        console.log(`boardId : ${this.boardId}`);
-        console.log(`page : ${this.page}`);
-        const result = await api.getBoardsMessages(
-            {
-             boardId : this.boardId,
-             page : this.page
-            }
-        );
-        context.commit(TYPE.SET_MESSAGES, result.data);
-        return 200;
-    } catch(e) {
-        console.error("GET_MESSAGES_BY_ID error : ",e);
+    // getMessageByBoardId
+    async [TYPE.GET_MESSAGES](context, params) {
+        try {
+            console.log("params : ", params);
+            this.boardId = params[0],
+                this.page = params[1]
+            console.log("--message.js--");
+            console.log(`boardId : ${this.boardId}`);
+            console.log(`page : ${this.page}`);
+            const result = await api.getBoardsMessages(
+                {
+                    boardId: this.boardId,
+                    page: this.page
+                }
+            );
+            context.commit(TYPE.SET_MESSAGES, result.data.result.data);
+            return 200;
+        } catch (e) {
+            console.error("GET_MESSAGES_BY_ID error : ", e);
+        }
     }
-}
 
 
 }
@@ -183,7 +183,7 @@ async [TYPE.GET_MESSAGES](context,params){
 // mutations
 const mutations = {
     [TYPE.CREATE_MESSAGE](state, payload) {
-        if(Array.isArray(state.messages)) {
+        if (Array.isArray(state.messages)) {
             state.messages.push(payload);
         } else {
             state.messages = [payload];
@@ -193,21 +193,21 @@ const mutations = {
         state.messages = payload;
     },
     [TYPE.UPDATE_BOARD](state, payload) {
-        if(Array.isArray(state.messages)) {
+        if (Array.isArray(state.messages)) {
             const idx = _.findIndex(state.messages, (message) => message.id === payload.id)
             state.messages[idx] = payload;
         } else {
             state.messages = [payload];
         }
     },
-    [TYPE.DELETE_MESSAGE](state, messageId){
+    [TYPE.DELETE_MESSAGE](state, messageId) {
         if (Array.isArray(state.messages)) {
             const idx = _.findIndex(state.messages, (message) => message.id === messageId)
-            state.messages.splice(idx,1);
+            state.messages.splice(idx, 1);
         } else {
             state.messages = [];
         }
-        
+
     }
 }
 

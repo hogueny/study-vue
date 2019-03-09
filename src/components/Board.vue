@@ -25,7 +25,7 @@
                   <th>Contents</th> 
                   <th>RegDate</th>
                 </tr>
-                <tr v-for="item in messages.result.data" :key="item.id">
+                <tr v-for="item in messages" :key="item.id">
                   <td>{{ item.id }}</td>
                   <td>{{ item.title }}</td>
                   <td>{{ item.contents }}</td>
@@ -88,7 +88,7 @@
             </a>
           </div>
         </div>
-        <b-list-group v-for="item in messages.result.data" :key="item.id">
+        <b-list-group v-for="item in messages" :key="item.id">
           <b-list-group-item>
             제목 : 
             <input type="text" v-model="item.title"><br>
