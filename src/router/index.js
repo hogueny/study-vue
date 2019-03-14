@@ -4,6 +4,7 @@ import Router from 'vue-router'
 
 // Components
 const Board = () => import("@/components/Board")
+const BoardDetail = () => import("@/components/BoardDetail")
 const LoginPage = () => import("@/components/LoginPage")
 const ModifyPage = () => import("@/components/ModifyPage")
 const BoardSet = () => import("@/components/BoardSet")
@@ -89,6 +90,11 @@ export default new Router({
           name: "boardSet",
           component: BoardSet
         },
+        {
+          path: "board/Message",
+          name: "board/Message",
+          component: BoardDetail
+        }, 
         {
           path: "login",
           name: "login",

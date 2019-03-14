@@ -183,6 +183,18 @@ const actions = {
         } catch (e) {
             console.error("GET_MESSAGES_BY_ID error : ", e);
         }
+    },
+
+    async [TYPE.GET_MESSAGE_DETAIL](context,messageId) {
+        try {
+            console.log("--message.js--");
+            console.log(`messageId : ${messageId}`);
+            const result = await api.getMessageDetail(messageId);
+            context.commit(TYPE.SET_MESSAGES, result.data);
+            return 200;
+        } catch (e) {
+            console.error("GET_MESSAGE_DETAIL error : ", e);
+        }
     }
 
 

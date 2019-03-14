@@ -158,3 +158,7 @@ export function getBoardsMessages(params) {
         page: params.page === undefined ? "" : params.page
     });
 }
+
+export function getMessageDetail(messageId) {
+    return axios.get(`${baseURL}/board/message/${messageId}`)
+}
