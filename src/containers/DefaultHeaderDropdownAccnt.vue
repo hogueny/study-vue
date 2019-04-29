@@ -1,11 +1,11 @@
 <template>
   <AppHeaderDropdown right no-caret>
     <template slot="header">
-      <img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+      <img src="img/avatars/6.png" class="img-avatar" alt="admin@bootstrapmaster.com">
     </template>\
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center">
-        <strong>{{user.name}} 계정</strong>
+        <strong>{{user.name}} 님의 계정</strong>
       </b-dropdown-header>
       <div v-if="user.id === -1">
         <b-dropdown-item @click="login">

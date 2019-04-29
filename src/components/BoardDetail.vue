@@ -5,7 +5,7 @@
       <b-card header-tag="header" footer-tag="footer">
         <div slot="header">
           <i class="fa fa-align-justify"></i>
-          <strong>{{messages.title}}</strong>
+          <strong>상세메시지</strong>
           <div class="card-header-actions">
             <a
               href="https://bootstrap-vue.js.org/docs/components/list-group"
