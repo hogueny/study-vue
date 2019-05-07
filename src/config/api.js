@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-const baseURL = process.env.prod.VUE_APP_API_HOST;
+const baseURL = process.env.VUE_APP_API_HOST;
 
 
 // for account 
