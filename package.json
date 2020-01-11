@@ -13,7 +13,8 @@
     "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e"
+    "test:e2e": "vue-cli-service test:e2e",
+    "deploy": "scp -r ./dist ubuntu@myec2:/home/ubuntu/study-vue"
   },
   "dependencies": {
     "@coreui/coreui": "^2.1.4",
