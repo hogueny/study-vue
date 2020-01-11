@@ -1,4 +1,4 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[0],{
+((typeof self !== 'undefined' ? self : this)["webpackJsonp"] = (typeof self !== 'undefined' ? self : this)["webpackJsonp"] || []).push([[0],{
 
 /***/ "./node_modules/moment/locale/af.js":
 /*!******************************************!*\

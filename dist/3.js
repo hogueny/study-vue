@@ -1,4 +1,4 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[3],{
+((typeof self !== 'undefined' ? self : this)["webpackJsonp"] = (typeof self !== 'undefined' ? self : this)["webpackJsonp"] || []).push([[3],{
 
 /***/ "./node_modules/@coreui/coreui/dist/js/coreui-utilities.js":
 /*!*****************************************************************!*\

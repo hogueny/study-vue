@@ -1,4 +1,4 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[2],{
+((typeof self !== 'undefined' ? self : this)["webpackJsonp"] = (typeof self !== 'undefined' ? self : this)["webpackJsonp"] || []).push([[2],{
 
 /***/ "./node_modules/@coreui/vue/dist/coreui-vue.esm.js":
 /*!*********************************************************!*\

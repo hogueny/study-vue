@@ -1,4 +1,4 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[1],{
+((typeof self !== 'undefined' ? self : this)["webpackJsonp"] = (typeof self !== 'undefined' ? self : this)["webpackJsonp"] || []).push([[1],{
 
 /***/ "./node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/umd/custom-tooltips.js":
 /*!************************************************************************************************!*\

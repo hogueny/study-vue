@@ -1,4 +1,4 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[12],{
+((typeof self !== 'undefined' ? self : this)["webpackJsonp"] = (typeof self !== 'undefined' ? self : this)["webpackJsonp"] || []).push([[12],{
 
 /***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
 /*!*****************************************************************!*\
