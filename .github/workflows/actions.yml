@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependency
+      run: npm i
+    - name: build project
+      run: npm run build:prod
+    - name: deploy
+      uses: appleboy/scp-action@v0.0.1
+      env:
+        HOST: ec2-52-79-172-143.ap-northeast-2.compute.amazonaws.com
+        USERNAME: ubuntu
+        KEY: '-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQEAxDyqtOeKLasYfEvOxhcQw4erFl+2SgCj3dvVLk90wteYHh8Y0qvb3DlkGd77R56iXPxejvO7y38G3aw3jYLxS6+y4MlTva0ryawQ7/Oqb+0lslH1xkucBrNyme4aOmImegOuk87CK4Ns1xIT1T6FjuLtAQUiuMmGtgaBfJgGCj8Sw2alWZfGOUzd5Tz8G2N5kU3bNDZQI8VbMOWizeXzkDct+ls6EIlWYcUgo9/+9G1jM2JkVFDCDmVgDCv47Rmxf3Q4lTKXXvHuSOTWZknDJP2wcf4DWb3CtDEW4e6ltz10aZbrzNaykKkRRzH0HdyMA4ycJAi6QFPond2OM92+qQIDAQABAoIBAEUvpnf1klAbnJxmFdbdVvm5IWbYA+r/YsbbtMOJG/9+B5HHIPdVxERWr6Y3aZyMn23tRGFeKX3LoV4SU9u+qNgocAa0tKORJHkMA0S2QgcIM1w1bVOmYLI0HlmLCxA+fpZSKgDOysKQqZUCOJ/cVTZVZ34Ok3lXA/m1PX3yE18U06o1t4qnGc/ddwYJwoGDrh6i4W7U/1ik+y8zhXNNqttOKqXAoe6VwuA/cUFM2Mhkp7wATEtfflGnh9B8XZQJjBT5jWYfi0QL+Z7C500oVPZTAxQaP0D4k6U5PwknDHPzOgLobvaN0C2XPh/Le5NOzrlHfH4hQ4wIf0vo94oW8wECgYEA5qPpivGBWOeGLO4282f4Q76K2KjX3ogCzvb2ycilu6WhuEpENoLMD++eksaE7Tkqp2ISko/28f23PuNDMcdxw310jXjHz4L6nDBESad+fBFwyit7S+GpupKm919GCykoL0DU2W7wVfX657WXDNrSUFsVDxt04zCRPq7hnC9QvxECgYEA2dBd3LC9MEiWmNFBoo6cbcrzZ2RdYNDqR8D16L58T6jk2uNDLgS8N7AlsgqrU8uNt6qqpROSGXE0kpFuGzwtz8Fdngp68PIzIX5w12ARyRMQLK7/H32qBHoezi7xIjjR3Rmpviy+Pw0R9/GfkE1cmMSmjVkVOoSPBOmvb/TVthkCgYB4q8/4O01Sp6gDAAvOJFq3jwz0OLrhGkZl5L7QamOUHx/S3UB9SMfdmqBb6PQJbfyMIPrYpewtRnLGu38fn1s9TflaP5RDVSMr7vD7nF/IKBPcIw3acNIt5KbpDHcIRdtZhdEXhjzGrPE+pDrIpgCdvFnzUolAiNulcThnUDYuEQKBgGGTTaki5+3sZsKY461d88ffpkDIHmjTzlBMqh0U0H2jLLq+GodQCb1sxMZIr02/n4ILC50d8lJBe4q5abj7sY4jkrvM+Bxec/dqPETPvcf1KUbLMnE6C2MsDgbR0qZBDArfh0Ixqxx1z3ninVe4wGWTmwUxRihL4AIUacpexSppAoGAA1/SeshMlX8whXXZxdfFjIgljekhq2c1sxYtwSBkJp/ngStHKTFa1U3IDLHn/hs6J5vBunLEYxcOO/GCT5BXiO4QeILvM2yBrVMu1t8Q3IktdQNdUjczC9ZdxO3PbcTfDpL1nYyOLD7phejf4/MxznwNlxpe0oy6IhPd7hFPPNo=-----END RSA PRIVATE KEY-----'
+        PORT: 22
+        SOURCE: 'dist/*'
+        TARGET: /home/ubuntu/study-vue/dist
